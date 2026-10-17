@@ -1,0 +1,162 @@
+# Vibe Knowledge Video · 知识大赏
+
+**给 AI 一个知识点，把它变成黑金纪录片风的动态信息图短视频。**
+
+一枚硬币、一颗落珠、一条不断生长的曲线，都可以成为讲清一个概念的入口。这个 Skill 把选题、分镜、事实核查、动画渲染与配乐混音串成一套工作流，让 AI 编程助手用 Python 制作「知识大赏」风格的知识科普视频。
+
+暖黑底色、金色强调、宋体字幕、档案式角标。没有旁白，用画面变化和字幕把故事讲完。
+
+## 🎬 先看效果：《运气的形状》
+
+以下是豆包、Claude、Codex、WorkBuddy 的四段样片。下方动图可直接预览；**点击动图或「完整视频」，打开带声音的完整 MP4 文件。**
+
+| 豆包 · 10.5 秒 | Claude · 10 秒 |
+| :---: | :---: |
+| [![豆包样片：人群中的好运与霉运](demos/doubao.gif)](demos/doubao.mp4) | [![Claude 样片：落珠聚成分布](demos/claude.gif)](demos/claude.mp4) |
+| 人群点阵里的好运与霉运 · [完整视频](demos/doubao.mp4) | 高尔顿板，落珠逐渐堆出形状 · [完整视频](demos/claude.mp4) |
+| **Codex · 10 秒** | **WorkBuddy · 10 秒** |
+| [![Codex 样片：硬币展开为所有可能](demos/codex.gif)](demos/codex.mp4) | [![WorkBuddy 样片：硬币连续出现正面](demos/workbuddy.gif)](demos/workbuddy.mp4) |
+| 硬币 → 1024 种可能 → 分布图 · [完整视频](demos/codex.mp4) | 从一枚硬币到连续正面 · [完整视频](demos/workbuddy.mp4) |
+
+## ✨ 这个 Skill 能做什么
+
+- **把抽象概念变成画面**：概率分布、指数增长、认知偏差、历史经济与哲学心理，都可以从具体案例切入。
+- **先写分镜，再做样片**：每个镜头写清楚画面怎么动、字幕怎么说、数字从哪里来；先看 10～30 秒，再决定完整版。
+- **生成统一的黑金视觉**：衬线字体、关键词描金、金色辉光、暗角和颗粒，让字幕、图表和标题保持同一种风格。
+- **让数据真正动起来**：曲线生长、点阵重排、数量累积、尺度旅行、物件变形，都通过代码逐帧绘制。
+- **配乐与音效同步**：自带固定背景音乐，支持合成落点、提示音、颗粒声、低频冲击与金属余晖，并控制音乐避让和淡出。
+- **保留可以修改的工程**：交付 Python 源码、分镜稿和视频；改一句字幕或一个镜头，就能局部重渲染。
+
+默认规格为 **1920 × 1080、30 fps、16:9 横屏、无旁白**。完整版通常为 90～150 秒，也可以明确要求先出 10 秒样片。
+
+## 🚀 快速开始
+
+### 1. 获取 Skill
+
+```bash
+git clone https://github.com/YT-smart/vibe-knowledge-video.git
+```
+
+也可以在仓库页面点击 **Code → Download ZIP**。将整个文件夹放入所用 AI 工具的 skills 目录，或让能够读取本地文件、执行命令的 AI 编程助手先阅读 [SKILL.md](SKILL.md)。
+
+请保留 `references/`、`scripts/` 和 `assets/`：它们分别提供分镜与视觉规范、渲染引擎、音效工具及背景音乐。
+
+### 2. 准备运行环境
+
+- Python 3，安装 Pillow 和 NumPy。
+- FFmpeg 与 ffprobe，加入系统 PATH。
+- 中文宋体或思源宋体，以及 Georgia 英文字体。引擎会按内置路径查找字体；使用其他系统时可调整 `scripts/vkit.py` 中的字体候选路径。
+
+```bash
+python -m pip install pillow numpy
+ffmpeg -version
+ffprobe -version
+```
+
+### 3. 把需求交给 AI
+
+**先做一个短样片：**
+
+```text
+使用 vibe-knowledge-video skill，做一个《运气的形状》的知识科普视频。
+横屏 16:9，黑金纪录片风，无旁白，使用技能自带配乐。
+先给我 10 秒样片，确认后再继续。
+```
+
+**让 AI 帮你找选题：**
+
+```text
+使用 vibe-knowledge-video skill，给我 10 个适合动画化的概率数学选题。
+每个给出开头钩子、核心画面和结尾反转。
+```
+
+**制作完整视频：**
+
+```text
+使用 vibe-knowledge-video skill，把「生日悖论」做成约 2 分钟的视频。
+先写分镜，核算每个数字，注明模型假设。
+分镜确认后，先做开头 30 秒样片。
+```
+
+**修改局部镜头：**
+
+```text
+把第 4～7 秒的点阵聚合放慢，字幕缩短一点，保留配乐。
+先导出这一段给我看。
+```
+
+## 🛠️ 它是怎样制作视频的
+
+```text
+知识点 / 选题
+      ↓
+钩子与叙事结构
+      ↓
+分镜、字幕、数字核算与出处
+      ↓
+关键帧预览 → 10～30 秒样片 → 根据反馈修改
+      ↓
+Python 逐帧渲染 + 背景音乐与音效混音
+      ↓
+FFmpeg 合成 MP4 + 保留工程源码
+```
+
+画面由 **Python + Pillow + NumPy** 绘制，默认以 2 倍尺寸超采样后缩小到 1080p。动画由时间参数驱动，同一时刻可以重复渲染，便于逐帧检查和局部修改。
+
+Skill 内置《指数的形状》完整示例，包含物件动作、尺度旅行、网格点亮、双柱对比、曲线变形、标题卡等镜头，可作为新项目的起点。
+
+### 手动运行示例工程
+
+在仓库根目录执行以下命令，将示例复制到独立项目文件夹：
+
+```bash
+python -c "from pathlib import Path; import shutil; p=Path('my-video'); p.mkdir(exist_ok=True); [shutil.copy2('scripts/'+n,p/n) for n in ('vkit.py','sfx.py')]; shutil.copy2('scripts/example_video.py',p/'video.py'); shutil.copy2('assets/bgm.m4a',p/'bgm.m4a')"
+cd my-video
+```
+
+然后按需运行：
+
+```bash
+# 抽取关键帧，先检查构图和字幕
+python video.py preview check.jpg 3 12 25
+
+# 渲染前 10 秒样片，自动混音并编码
+python video.py sample 0 10
+
+# 生成全部画面、音频与成片
+python video.py all
+
+# 只重渲染某个时间段
+python video.py frames 31 45
+
+# 编码为体积更小的版本
+python video.py encode output.mp4 --lite
+```
+
+上述命令运行的是内置《指数的形状》示例。制作新主题时，让 AI 根据分镜改写 `video.py` 的镜头函数、`SCENES`、`SUBS`、`LABELS` 和 `sound()`。
+
+## 📁 仓库结构
+
+```text
+vibe-knowledge-video/
+├── SKILL.md                       # AI 工作流程与制作要求
+├── README.md                      # 项目介绍与使用说明
+├── assets/
+│   └── bgm.m4a                    # 系列固定背景音乐
+├── references/
+│   ├── style_guide.md             # 黑金视觉规范
+│   ├── storyboard.md              # 选题、字幕与事实核查
+│   ├── example_storyboard.md      # 完整分镜范例
+│   └── production.md              # 渲染、混音与制作说明
+├── scripts/
+│   ├── vkit.py                    # 绘图与逐帧渲染引擎
+│   ├── sfx.py                     # 音效合成与音乐混音
+│   └── example_video.py           # 《指数的形状》示例工程
+└── demos/                         # 四段演示视频与动态预览
+```
+
+## 💡 适合用来做
+
+知识科普短视频、数学与概率可视化、认知偏差讲解、历史经济故事，以及哲学心理主题的动态信息图。
+
+从一条能被画出来的问题开始，让观众看见一个概念如何发生。
